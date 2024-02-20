@@ -1,7 +1,7 @@
+import { reatomComponent } from '@reatom/npm-react'
 import { type ReactNode, useEffect } from 'react'
 import { useFeatureToggle } from '@/entities/featureToggle/@x/theme'
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks'
-import { changeTheme, selectCurrentTheme } from '../model/slice'
+import { theme } from '../model/slice'
 import { type Theme } from '../model/types'
 
 type Props = {
@@ -9,24 +9,26 @@ type Props = {
   children: ReactNode
 }
 
-export function ThemeProvider({ children, theme }: Props) {
-  const currentTheme = useAppSelector(selectCurrentTheme)
-  const darkModeIsEnabled = useFeatureToggle('darkMode')
-  const dispatch = useAppDispatch()
+export const ThemeProvider = reatomComponent<Props>(
+  ({ ctx, children, theme: themeValue }) => {
+    const currentTheme = ctx.spy(theme)
+    const darkModeIsEnabled = useFeatureToggle('darkMode')
 
-  useEffect(() => {
-    if (!darkModeIsEnabled) {
-      return
-    }
+    useEffect(() => {
+      if (!darkModeIsEnabled) {
+        return
+      }
 
-    if (theme && theme !== currentTheme) {
-      dispatch(changeTheme(theme))
+      if (themeValue && themeValue !== currentTheme) {
+        theme(ctx, themeValue)
 
-      return
-    }
+        return
+      }
 
-    document.documentElement.setAttribute('data-theme', currentTheme)
-  }, [currentTheme, theme, darkModeIsEnabled])
+      document.documentElement.setAttribute('data-theme', currentTheme)
+    }, [currentTheme, themeValue, darkModeIsEnabled])
 
-  return <>{children}</>
-}
+    return <>{children}</>
+  },
+  'ThemeProvider'
+)

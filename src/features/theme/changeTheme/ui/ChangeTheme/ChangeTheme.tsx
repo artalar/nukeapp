@@ -1,28 +1,26 @@
+import { reatomComponent } from '@reatom/npm-react'
 import React, { useCallback } from 'react'
-import { changeTheme, selectCurrentTheme } from '@/entities/theme'
+import { theme } from '@/entities/theme'
 import { useFeatureSlicedDebug } from '@/shared/lib'
-import { useAppDispatch, useAppSelector } from '@/shared/model'
 import { Icon } from '@/shared/ui'
 
-export function ChangeTheme() {
+export const ChangeTheme = reatomComponent(({ ctx }) => {
   const { rootAttributes } = useFeatureSlicedDebug('feature/ChangeTheme')
-  const currentTheme = useAppSelector(selectCurrentTheme)
-  const dispatch = useAppDispatch()
 
   const onClick = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
       e.stopPropagation()
-      dispatch(changeTheme(currentTheme === 'light' ? 'dark' : 'light'))
+      theme(ctx, (state) => (state === 'light' ? 'dark' : 'light'))
     },
-    [currentTheme]
+    [ctx]
   )
 
   return (
     <div {...rootAttributes}>
       <Icon
         onClick={onClick}
-        type={currentTheme === 'light' ? 'moon' : 'sun'}
+        type={ctx.spy(theme) === 'light' ? 'moon' : 'sun'}
       />
     </div>
   )
-}
+}, 'ChangeTheme')

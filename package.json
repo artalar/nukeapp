@@ -24,7 +24,7 @@
     "@mswjs/data": "github:noveogroup-amorgunov/mswjs-data#feat-persist",
     "@reatom/framework": "3.4.33",
     "@reatom/npm-react": "3.8.3",
-    "@reatom/persist-web-storage": "3.3.0",
+    "@reatom/persist-web-storage": "3.3.1",
     "@reduxjs/toolkit": "1.9.2",
     "classnames": "2.3.2",
     "jose": "4.14.0",
