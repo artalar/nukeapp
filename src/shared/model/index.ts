@@ -1,2 +1,2 @@
-export { debugModeSlice, toggleDebugMode } from './debugModeSlice'
+export { debugModeAtom } from './debugModeSlice'
 export { useAppDispatch, useAppSelector } from './hooks'

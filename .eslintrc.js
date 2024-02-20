@@ -9,7 +9,8 @@ module.exports = {
     "plugin:prettier/recommended",
     "@feature-sliced/eslint-config/rules/layers-slices",
     // "@feature-sliced/eslint-config/rules/public-api",
-    "plugin:storybook/recommended"
+    "plugin:storybook/recommended",
+    "plugin:@reatom/recommended"
   ],
   overrides: [],
   parser: "@typescript-eslint/parser",
@@ -25,7 +26,7 @@ module.exports = {
     sourceType: 'module',
     project: 'tsconfig.json'
   },
-  plugins: ['react'],
+  plugins: ['react', '@reatom'],
   rules: {
     "import/order": ["error", {
       "groups": ["builtin", "external", "internal", "parent", "sibling"],
