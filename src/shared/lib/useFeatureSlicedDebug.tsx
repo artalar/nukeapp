@@ -1,5 +1,6 @@
+import { useAtom } from '@reatom/npm-react'
 import { type HTMLAttributes, type CSSProperties } from 'react'
-import { useAppSelector } from '@/shared/model'
+import { debugMode } from '@/shared/model'
 
 type CustomCSSProperties = {
   '--fsd-background-color': string
@@ -23,7 +24,7 @@ const colorMap: Record<Layer, string> = {
 export function useFeatureSlicedDebug<T extends HTMLElement = HTMLDivElement>(
   name: ModuleName
 ) {
-  const isDebugMode = useAppSelector((state) => state.debugMode.isEnabled)
+  const [isDebugMode] = useAtom(debugMode)
   const rootAttributes: CustomHTMLAttributes<T> = {}
   const [layer] = name.split('/') as [Layer]
 

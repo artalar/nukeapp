@@ -1,9 +1,10 @@
 import { type Decorator } from '@storybook/react'
 import { Provider as ReduxProvider } from 'react-redux'
+import { ctx } from '@/app/appModel'
 import { makeStore } from '@/app/appStore'
 import { loginThunk } from '@/features/authentication/login/model/login'
 import { config } from '@/shared/lib'
-import { toggleDebugMode } from '@/shared/model'
+import { debugMode } from '@/shared/model'
 
 const store = makeStore()
 
@@ -13,7 +14,7 @@ store.dispatch(
     password: config.API_USER_PASSWORD,
   })
 )
-store.dispatch(toggleDebugMode())
+debugMode.toggle(ctx)
 
 export const withStore: Decorator = (StoryFn, context) => {
   return (

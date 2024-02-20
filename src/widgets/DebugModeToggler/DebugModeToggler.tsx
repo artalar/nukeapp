@@ -1,15 +1,14 @@
-import { useAppDispatch, useAppSelector, toggleDebugMode } from '@/shared/model'
+import { reatomComponent } from '@reatom/npm-react'
+import { debugMode } from '@/shared/model'
 import css from './DebugModeToggler.module.css'
 
-export function DebugModeToggler() {
-  const isDebugMode = useAppSelector((state) => state.debugMode.isEnabled)
-  const dispatch = useAppDispatch()
-
-  return (
+export const DebugModeToggler = reatomComponent(
+  ({ ctx }) => (
     <div className={css.root}>
-      <button onClick={() => dispatch(toggleDebugMode())}>
-        {isDebugMode ? '✅ debug mode' : '☑️ debug mode'}
+      <button onClick={ctx.bind(debugMode.toggle)}>
+        {ctx.spy(debugMode) ? '✅ debug mode' : '☑️ debug mode'}
       </button>
     </div>
-  )
-}
+  ),
+  'DebugModeToggler'
+)
