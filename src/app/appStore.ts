@@ -15,13 +15,13 @@ import { sessionSlice } from '@/entities/session'
 import { themeSlice } from '@/entities/theme'
 import { invalidateAccessTokenListener } from '@/features/authentication/invalidateAccessToken'
 import { baseApi } from '@/shared/api'
-import { debugModeSlice } from '@/shared/model'
+import { syncReatom } from '@/shared/lib'
 import { rootReducer } from './rootReducer'
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: [sessionSlice.name, debugModeSlice.name, themeSlice.name],
+  whitelist: [sessionSlice.name, themeSlice.name],
 }
 
 export function makeStore() {
@@ -34,7 +34,15 @@ export function makeStore() {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+          ignoredActions: [
+            FLUSH,
+            REHYDRATE,
+            PAUSE,
+            PERSIST,
+            PURGE,
+            REGISTER,
+            syncReatom.type,
+          ],
         },
       }).concat(baseApi.middleware, invalidateAccessTokenListener.middleware),
   })
